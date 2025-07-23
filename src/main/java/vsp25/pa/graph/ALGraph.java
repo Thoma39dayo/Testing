@@ -18,8 +18,15 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements GraphInterf
     /**
      * Constructs an empty adjacency list graph.
      */
+    private Map<V, Set<E>> adjacencyList;//TO find the neighbour edges of the vertices
+    private Set<V> vertices;
+    private Set<E> edges;
     public ALGraph() {
         // TODO: Initialize your data structures
+        adjacencyList = new HashMap<>();
+        vertices = new HashSet<>();
+        edges = new HashSet<>();
+    
     }
     
     // ===== TASK 1: Basic Graph Operations =====
@@ -31,8 +38,17 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements GraphInterf
         // - Add to vertices set
         // - Initialize adjacency list entry
         // - Return true if added, false if already exists
-        return false; // Placeholder
-    }
+        
+            
+    if (v != null || !vertices.contains(v)) {
+        vertices.add(v);
+    adjacencyList.put(v, new HashSet<>()); // Initialize empty edge set
+    return true;
+    }return false;
+    
+    
+}
+    
     
     @Override
     public boolean addEdge(E e) {
@@ -41,19 +57,31 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements GraphInterf
         // - Add to edges set
         // - Add to adjacency list for both vertices
         // - Return true if added, false if already exists
-        return false; // Placeholder
+      
+if (e != null || vertices.contains(e.v1()) || vertices.contains(e.v2())||!edges.contains(e)) {
+        edges.add(e);
+    adjacencyList.get(e.v1()).add(e); // Add edge to v1's adjacency list
+    adjacencyList.get(e.v2()).add(e); 
+    return true;
+    }
+    
+    
+    return false;
+
     }
     
     @Override
     public boolean hasVertex(V v) {
         // TODO: Check if vertex exists in graph
-        return false; // Placeholder
+
+            
+    return vertices.contains(v);
     }
     
     @Override
     public boolean hasEdge(E e) {
-        // TODO: Check if edge exists in graph
-        return false; // Placeholder
+        
+    return edges.contains(e);
     }
     
     @Override
@@ -61,14 +89,25 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements GraphInterf
         // TODO: Check if edge exists between two vertices
         // - Verify both vertices exist
         // - Check adjacency list for edge
-        return false; // Placeholder
+       if (v1 != null || v2 != null || vertices.contains(v1) || vertices.contains(v2)) {
+        return true;
+    }
+    return false;
     }
     
     @Override
     public E getEdge(V v1, V v2) {
         // TODO: Get edge between two vertices
         // - Return the edge if it exists, null otherwise
-        return null; // Placeholder
+          if (v1 == null || v2 == null || !vertices.contains(v1) || !vertices.contains(v2)) {
+        return null;
+    }
+    for (E e : adjacencyList.get(v1)) {
+        if (e.incident(v2)) {
+            return e;
+        }
+    }
+    
     }
     
     @Override
@@ -76,7 +115,13 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements GraphInterf
         // TODO: Get length of edge between vertices
         // - Use getEdge() to find the edge
         // - Return edge length or -1 if no edge exists
-        return -1; // Placeholder
+        E edge = getEdge(v1, v2);
+
+    if (edge == null) {
+        return -1;
+    }
+    
+        return edge.length(); // Placeholder
     }
     
     // ===== TASK 2: Advanced Graph Operations =====
@@ -88,7 +133,18 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements GraphInterf
         // - Remove all edges incident on the vertex
         // - Remove vertex from vertices set
         // - Remove from adjacency list
-        return false; // Placeholder
+        
+        if (v != null || vertices.contains(v)) {
+        Set<E> incidentEdges = new HashSet<>(adjacencyList.get(v)); // Defensive copy
+    for (E e : incidentEdges) {
+        removeEdge(e);
+    }
+        vertices.remove(v);
+        adjacencyList.remove(v);
+    return true;
+    }
+    return false;
+    
     }
     
     @Override
@@ -97,7 +153,14 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements GraphInterf
         // - Check if edge exists
         // - Remove from edges set
         // - Remove from adjacency list for both vertices
-        return false; // Placeholder
+        if (e != null || edges.contains(e)) {
+        edges.remove(e);
+    adjacencyList.get(e.v1()).remove(e); // Remove from v1's adjacency list
+    adjacencyList.get(e.v2()).remove(e); // Remove from v2's adjacency list
+    return true;
+    }
+    return false;
+    
     }
     
     @Override
@@ -105,6 +168,11 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements GraphInterf
         // TODO: Calculate sum of all edge lengths
         // - Iterate through all edges
         // - Sum their lengths
+        int total = 0;
+    for (E e : edges) {
+        total += e.length();
+    }
+        return total;
         return 0; // Placeholder
     }
     
@@ -112,14 +180,14 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements GraphInterf
     public Set<V> getVertices() {
         // TODO: Return all vertices in graph
         // - Return defensive copy of vertices set
-        return new HashSet<>(); // Placeholder
+        return new HashSet<>(vertices); // Placeholder
     }
     
     @Override
     public Set<E> getEdges() {
         // TODO: Return all edges in graph
         // - Return defensive copy of edges set
-        return new HashSet<>(); // Placeholder
+        return new HashSet<>(edges); // Placeholder
     }
     
     @Override
@@ -127,7 +195,11 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements GraphInterf
         // TODO: Return edges incident on vertex
         // - Check if vertex exists
         // - Return edges from adjacency list
-        return new HashSet<>(); // Placeholder
+        if (v == null || !vertices.contains(v)) {
+        return new HashSet<>();
+    }
+    return new HashSet<>(adjacencyList.get(v));
+         // Placeholder
     }
     
     @Override
@@ -136,8 +208,18 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements GraphInterf
         // - Check if vertex exists
         // - For each incident edge, find the other vertex
         // - Return map of neighbor -> edge
+       Map<V, E> neighbors = new HashMap<>();
+    if (v != null || vertices.contains(v)) {
+        for (E e : adjacencyList.get(v)) {
+        V neighbor = e.distinctVertex(v); 
+        neighbors.put(neighbor, e);
+    }
+    return neighbors;
+    }
+    
         return new HashMap<>(); // Placeholder
     }
+    
     
     // ===== TASK 3: Basic Algorithm Operations =====
     
