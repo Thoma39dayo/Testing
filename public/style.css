@@ -1,0 +1,64 @@
+#mainBody {
+  width: 100%;
+  max-width: 1000px;
+  margin: 40px auto; 
+  text-align: center;
+  padding: 0 16px; 
+}
+
+#mainBody h1 {
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+#imagesGrid {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto; 
+}
+
+#imagesGrid img {
+  width: 100%;
+  max-width: 220px;
+  min-width: 100px;
+  height: auto;
+  display: block;
+  transition: box-shadow 0.3s, border-radius 0.3s;
+  margin: auto;
+}
+
+#imagesGrid td {
+  padding: 5px;
+}
+
+@media (max-width: 600px) {
+  #imagesGrid img {
+    max-width: 140px;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 800px) {
+  #imagesGrid img {
+    max-width: 180px;
+  }
+}
+
+@media (min-width: 801px) {
+  #imagesGrid img {
+    max-width: 300px;
+  }
+}
+
+#imagesGrid img:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+  border-radius: 32px;
+}
+
+#start-slideshow {
+  /* No custom styles, revert to browser default */
+}
+#start-slideshow:hover {
+  /* No custom styles, revert to browser default */
+}
+
