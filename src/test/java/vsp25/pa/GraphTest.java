@@ -449,91 +449,75 @@ public class GraphTest {
     
     @Test
     void testTask5_GameIntegration() {
-        // TODO: Implement ALGraph and AMGraph first
         // Test that graph can be used with game components
-        // GraphInterface<Vertex, Edge<Vertex>> gameGraph = new Graph<>();
+        GraphInterface<Vertex, Edge<Vertex>> gameGraph = new ALGraph<>();
         
         // Add game vertices (planets)
-        // Vertex planet1 = new Vertex(1, "Tatooine");
-        // Vertex planet2 = new Vertex(2, "Coruscant");
-        // Vertex planet3 = new Vertex(3, "Naboo");
+        Vertex planet1 = new Vertex(1, "Tatooine");
+        Vertex planet2 = new Vertex(2, "Coruscant");
+        Vertex planet3 = new Vertex(3, "Naboo");
         
-        // gameGraph.addVertex(planet1);
-        // gameGraph.addVertex(planet2);
-        // gameGraph.addVertex(planet3);
+        gameGraph.addVertex(planet1);
+        gameGraph.addVertex(planet2);
+        gameGraph.addVertex(planet3);
         
         // Add game edges (space routes)
-        // Edge<Vertex> route1 = new Edge<>(planet1, planet2, 10);
-        // Edge<Vertex> route2 = new Edge<>(planet2, planet3, 8);
+        Edge<Vertex> route1 = new Edge<>(planet1, planet2, 10);
+        Edge<Vertex> route2 = new Edge<>(planet2, planet3, 8);
         
-        // gameGraph.addEdge(route1);
-        // gameGraph.addEdge(route2);
+        gameGraph.addEdge(route1);
+        gameGraph.addEdge(route2);
         
         // Test game-related operations
-        // List<Vertex> route = gameGraph.shortestPath(planet1, planet3);
-        // assertEquals(3, route.size());
-        // assertEquals(planet1, route.get(0));
-        // assertEquals(planet2, route.get(1));
-        // assertEquals(planet3, route.get(2));
+        List<Vertex> route = gameGraph.shortestPath(planet1, planet3);
+        assertEquals(3, route.size());
+        assertEquals(planet1, route.get(0));
+        assertEquals(planet2, route.get(1));
+        assertEquals(planet3, route.get(2));
         
         // Test path length calculation
-        // int routeLength = gameGraph.pathLength(route);
-        // assertEquals(18, routeLength); // 10 + 8
-        
-        // Placeholder test - remove when implementations are complete
-        assertTrue(true, "ALGraph and AMGraph implementations need to be completed");
+        int routeLength = gameGraph.pathLength(route);
+        assertEquals(18, routeLength); // 10 + 8
     }
     
     // ===== GENERAL TESTS =====
     
     @Test
     void testEmptyGraph() {
-        // TODO: Implement ALGraph and AMGraph first
-        // assertTrue(alGraph.getVertices().isEmpty());
-        // assertTrue(alGraph.getEdges().isEmpty());
-        // assertTrue(amGraph.getVertices().isEmpty());
-        // assertTrue(amGraph.getEdges().isEmpty());
-        
-        // Placeholder test - remove when implementations are complete
-        assertTrue(true, "ALGraph and AMGraph implementations need to be completed");
+        assertTrue(alGraph.getVertices().isEmpty());
+        assertTrue(alGraph.getEdges().isEmpty());
+        assertTrue(amGraph.getVertices().isEmpty());
+        assertTrue(amGraph.getEdges().isEmpty());
     }
     
     @Test
     void testDisconnectedGraph() {
-        // TODO: Implement ALGraph and AMGraph first
-        // alGraph.addVertex(v1);
-        // alGraph.addVertex(v2);
-        // amGraph.addVertex(v1);
-        // amGraph.addVertex(v2);
+        alGraph.addVertex(v1);
+        alGraph.addVertex(v2);
+        amGraph.addVertex(v1);
+        amGraph.addVertex(v2);
         
         // No path between disconnected vertices
-        // List<Vertex> alPath = alGraph.shortestPath(v1, v2);
-        // List<Vertex> amPath = amGraph.shortestPath(v1, v2);
+        List<Vertex> alPath = alGraph.shortestPath(v1, v2);
+        List<Vertex> amPath = amGraph.shortestPath(v1, v2);
         
-        // assertTrue(alPath.isEmpty());
-        // assertTrue(amPath.isEmpty());
-        
-        // Placeholder test - remove when implementations are complete
-        assertTrue(true, "ALGraph and AMGraph implementations need to be completed");
+        assertTrue(alPath.isEmpty());
+        assertTrue(amPath.isEmpty());
     }
     
     @Test
     void testNullHandling() {
-        // TODO: Implement ALGraph and AMGraph first
         // Test null vertex handling
-        // assertFalse(alGraph.addVertex(null));
-        // assertFalse(amGraph.addVertex(null));
+        assertFalse(alGraph.addVertex(null));
+        assertFalse(amGraph.addVertex(null));
         
         // Test null edge handling
-        // assertFalse(alGraph.addEdge(null));
-        // assertFalse(amGraph.addEdge(null));
+        assertFalse(alGraph.addEdge(null));
+        assertFalse(amGraph.addEdge(null));
         
         // Test null queries
-        // assertFalse(alGraph.hasVertex(null));
-        // assertFalse(amGraph.hasVertex(null));
-        
-        // Placeholder test - remove when implementations are complete
-        assertTrue(true, "ALGraph and AMGraph implementations need to be completed");
+        assertFalse(alGraph.hasVertex(null));
+        assertFalse(amGraph.hasVertex(null));
     }
     
     // ===== BUILDER PATTERN TESTS =====
@@ -590,27 +574,24 @@ public class GraphTest {
         GraphStrategy.ImmutableView<Vertex, Edge<Vertex>> denseImmutable = 
             new GraphStrategy.ImmutableView<>(denseGraph);
         
-        // Test that both implementations work the same way (these will fail until implementations are complete)
-        // sparseMutable.addVertex(v1);
-        // sparseMutable.addVertex(v2);
-        // sparseMutable.addEdge(e1);
+        // Test that both implementations work the same way
+        sparseMutable.addVertex(v1);
+        sparseMutable.addVertex(v2);
+        sparseMutable.addEdge(e1);
         
-        // denseMutable.addVertex(v1);
-        // denseMutable.addVertex(v2);
-        // denseMutable.addEdge(e1);
+        denseMutable.addVertex(v1);
+        denseMutable.addVertex(v2);
+        denseMutable.addEdge(e1);
         
-        // Test query operations (these will fail until implementations are complete)
-        // assertTrue(sparseImmutable.hasEdge(v1, v2));
-        // assertTrue(denseImmutable.hasEdge(v1, v2));
+        // Test query operations
+        assertTrue(sparseImmutable.hasEdge(v1, v2));
+        assertTrue(denseImmutable.hasEdge(v1, v2));
         
-        // Test algorithm operations (these will fail until implementations are complete)
-        // List<Vertex> sparsePath = sparseImmutable.shortestPath(v1, v2);
-        // List<Vertex> densePath = denseImmutable.shortestPath(v1, v2);
+        // Test algorithm operations
+        List<Vertex> sparsePath = sparseImmutable.shortestPath(v1, v2);
+        List<Vertex> densePath = denseImmutable.shortestPath(v1, v2);
         
-        // assertEquals(2, sparsePath.size());
-        // assertEquals(2, densePath.size());
-        
-        // Placeholder test - remove when implementations are complete
-        assertTrue(true, "GraphStrategy tests need ALGraph and AMGraph implementations to be completed");
+        assertEquals(2, sparsePath.size());
+        assertEquals(2, densePath.size());
     }
 }
